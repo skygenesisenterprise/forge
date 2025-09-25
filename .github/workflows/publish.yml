@@ -30,6 +30,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           # disable cache, to avoid cache poisoning (https://docs.zizmor.sh/audits/#cache-poisoning)
           package-manager-cache: false
+          always-auth: true
 
       - name: Disallow installation scripts
         run: yq '.onlyBuiltDependencies = []' -i pnpm-workspace.yaml
@@ -43,3 +44,4 @@ jobs:
         run: npm i -g npm@^11.5.2 && pnpm run ci-publish "$REF_NAME"
         env:
           REF_NAME: ${{ github.ref_name }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
